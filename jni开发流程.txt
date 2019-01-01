@@ -1,0 +1,47 @@
+1, 在java中定义native方法, System.loadLibrary("xxx");
+2, 新建jni目录(与java同级目录), 新建 hello.c 与 Android.mk 文件
+    javah命令生成头文件 ---> \app\src\main\java>javah com.example.wangweijun.reflect.JNI
+
+javah 与ndk-build 都可以cd到java目录下运行
+
+Android.mk
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+LOCAL_MODULE := hello_jni
+LOCAL_SRC_FILES =: hello_jni.c
+LOCAL_LDLIBS += -llog
+APP_ABI := all
+include $(BUILD_SHARED_LIBRARY)
+3, 编译c
+安装ndk
+进入 \app\src\main>   ndk-build
+
+
+
+在classes目录下使用javap -s 全类名 查看方法签名，用于c反射调用java对象的函数
+E:\study\longge\dongnao\code\jiagou\jni_c_reflect\app\build\intermediates
+\javac\debug\compileDebugJavaWithJavac\classes
+
+javap -s com.example.wangweijun.reflect.JNI
+Compiled from "JNI.java"
+public class com.example.wangweijun.reflect.JNI {
+  public com.example.wangweijun.reflect.JNI();
+    descriptor: ()V
+
+  public void helloFromJava();
+    descriptor: ()V
+
+  public int add(int, int);
+    descriptor: (II)I
+
+  public void printString(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public native void callback();
+    descriptor: ()V
+
+ }
+
+
+
+
